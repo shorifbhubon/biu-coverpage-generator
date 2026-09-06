@@ -24,28 +24,8 @@ An authentic, zero-friction web application designed for all students of **Brahm
 ---
 
 ## 🚀 Live Demo & Deployment on GitHub Pages
-
-This project is 100% static (HTML5, CSS3, Vanilla JavaScript) with no external server or build step required.
-
-### Quick Deployment Guide:
-1. **Push to GitHub**:
-   ```bash
-   git add .
-   git commit -m "feat: initial commit for BIU Cover Page Generator"
-   git branch -M main
-   git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
-   git push -u origin main
-   ```
-2. **Enable GitHub Pages**:
-   - Go to your repository on GitHub.
-   - Click **Settings** (top navigation).
-   - In the left sidebar, click **Pages**.
-   - Under **Build and deployment** > **Source**:
-     - Select **GitHub Actions** (the included `.github/workflows/pages.yml` will automatically deploy on every push), **OR**
-     - Select **Deploy from a branch** -> branch `main` -> folder `/ (root)` -> Click **Save**.
-   - Your site will be live at:
-     ```
-     https://<YOUR_USERNAME>.github.io/<YOUR_REPOSITORY>/
+   - This site will be live at:
+     ``` https://shorifbhubon.github.io/biu-coverpage-generator/
      ```
 
 ---
