@@ -25,8 +25,8 @@ An authentic, zero-friction web application designed for all students of **Brahm
 
 ## 🚀 Live Demo & Deployment on GitHub Pages
    - This site will be live at:
-     ``` https://shorifbhubon.github.io/biu-coverpage-generator/
-     ```
+      (https://shorifbhubon.github.io/biu-coverpage-generator/)
+     
 
 ---
 
