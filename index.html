@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BIU Cover Page & Lab Report Generator | Brahmaputra International University</title>
+  <meta name="description" content="Generate authentic Brahmaputra International University lab reports, assignments, and project cover page PDFs in seconds. Just fill the form and download clean A4 PDF.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=2.1">
+  <!-- Bundled local html2pdf library -->
+  <script src="vendor/html2pdf.bundle.min.js"></script>
+  <!-- Embedded High-Resolution Logo Asset for 100% offline & canvas compatibility -->
+  <script src="assets/logo_data.js?v=2.1"></script>
+</head>
+<body class="theme-dark">
+  <!-- Top Application Bar -->
+  <header class="app-header">
+    <div class="header-left">
+      <div class="brand-logo-wrap">
+        <img id="headerLogoImg" src="assets/biu_logo.png" alt="BIU Logo" class="brand-crest">
+      </div>
+      <div class="brand-text">
+        <h1 class="brand-title">BIU Cover Page Generator</h1>
+        <span class="brand-subtitle">Brahmaputra International University • Universal Cover Page Maker</span>
+      </div>
+    </div>
+
+    <!-- View Mode Switcher for Mobile/Tablet -->
+    <div class="mobile-view-tabs" id="mobileTabs">
+      <button type="button" class="tab-btn active" id="tabFormBtn" onclick="switchMobileTab('form')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Edit Form
+      </button>
+      <button type="button" class="tab-btn" id="tabPreviewBtn" onclick="switchMobileTab('preview')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        Live Preview
+      </button>
+    </div>
+
+    <div class="header-actions">
+      <button type="button" id="shareBtn" class="btn btn-secondary" title="Share this Course Template with Classmates" onclick="copyShareableLink()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        <span>Share Link</span>
+      </button>
+      <button type="button" id="themeToggleBtn" class="btn btn-secondary icon-btn" title="Toggle Theme" onclick="toggleTheme()">
+        <svg id="themeIconDark" class="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg id="themeIconLight" class="theme-icon hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button type="button" id="printBtn" class="btn btn-secondary" title="Print or Vector PDF via Browser Print" onclick="printDocument()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Print / Save
+      </button>
+      <button type="button" id="downloadPdfBtn" class="btn btn-primary" onclick="generatePDF()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span>Download PDF</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Work Area -->
+  <main class="app-main">
+    <!-- Left Column: Form Editor -->
+    <section class="editor-pane" id="editorPane">
+      <div class="editor-scroll">
+        <!-- Prominent Zero-Upload Guide Banner -->
+        <div class="zero-upload-banner">
+          <div class="banner-badge">✨ 100% ONLINE • NO FILE UPLOAD REQUIRED</div>
+          <h2 class="banner-title">Simply Fill Out Your Details Below</h2>
+          <p class="banner-desc">Type your name, student ID, course, and teacher info. Your official BIU cover page updates <strong>instantly in real time</strong> on the right. Then click <strong>Download PDF</strong>!</p>
+        </div>
+
+        <!-- 1. Document Mode Selector -->
+        <div class="form-section mode-section">
+          <div class="section-title-row">
+            <label class="section-label">Select Document Type</label>
+            <span class="mode-badge" id="currentModeBadge">Current: Lab Report</span>
+          </div>
+          <div class="presets-grid" id="presetsGrid">
+            <button type="button" class="preset-pill active" data-type="Lab Report" onclick="applyTypePreset('Lab Report')">
+              <span class="preset-icon">🔬</span> Lab Report
+            </button>
+            <button type="button" class="preset-pill" data-type="Assignment" onclick="applyTypePreset('Assignment')">
+              <span class="preset-icon">📝</span> Assignment
+            </button>
+            <button type="button" class="preset-pill" data-type="Project Report" onclick="applyTypePreset('Project Report')">
+              <span class="preset-icon">📊</span> Project Report
+            </button>
+            <button type="button" class="preset-pill" data-type="Term Paper" onclick="applyTypePreset('Term Paper')">
+              <span class="preset-icon">📄</span> Term Paper
+            </button>
+            <button type="button" class="preset-pill" data-type="Internship Report" onclick="applyTypePreset('Internship Report')">
+              <span class="preset-icon">💼</span> Internship
+            </button>
+            <button type="button" class="preset-pill" data-type="Thesis" onclick="applyTypePreset('Thesis')">
+              <span class="preset-icon">🎓</span> Thesis
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Student Quick Actions & Profile Manager (For all university students) -->
+        <div class="profile-toolbar">
+          <button type="button" class="profile-chip-btn blank-btn" onclick="startBlankForm()" title="Clear student and course fields to start completely fresh">
+            ✨ Start Blank
+          </button>
+          <button type="button" class="profile-chip-btn" onclick="saveStudentProfile()" title="Save your Name, ID, Batch & Dept so you don't have to re-type next time">
+            💾 Save Profile
+          </button>
+          <button type="button" class="profile-chip-btn" onclick="loadStudentProfile()" title="Load your saved personal profile">
+            ⚡ Load Profile
+          </button>
+          <button type="button" class="profile-chip-btn secondary" onclick="clearCourseFields()" title="Keep your name/ID but clear course & teacher for next assignment">
+            ➕ Next Course
+          </button>
+          <button type="button" class="profile-chip-btn danger" onclick="resetToSample()" title="Reset all fields to sample">
+            🔄 Fill Sample
+          </button>
+        </div>
+
+        <!-- 3. Document & Course Information -->
+        <div class="form-card">
+          <div class="card-header">
+            <span class="card-icon">🏛️</span>
+            <h3>University & Course Information</h3>
+          </div>
+          <div class="card-body">
+            <div class="input-group">
+              <label for="inputUniLine1">University Name (Line 1)</label>
+              <input type="text" id="inputUniLine1" value="BRAHMAPUTRA INTERNATIONAL" placeholder="e.g. BRAHMAPUTRA INTERNATIONAL">
+            </div>
+            <div class="input-group">
+              <label for="inputUniLine2">University Name (Line 2)</label>
+              <input type="text" id="inputUniLine2" value="UNIVERSITY" placeholder="e.g. UNIVERSITY">
+            </div>
+            <div class="input-group">
+              <label for="inputReportTitle">Cover Page Heading</label>
+              <input type="text" id="inputReportTitle" value="Lab Report" placeholder="e.g. Lab Report, Assignment">
+            </div>
+            <div class="input-row">
+              <div class="input-group flex-1">
+                <label for="inputCourseCode">Course Code</label>
+                <input type="text" id="inputCourseCode" value="0611-3208" placeholder="e.g. 0611-3208, CSE-3208">
+              </div>
+              <div class="input-group flex-2">
+                <label for="inputCourseTitle">Course Title</label>
+                <input type="text" id="inputCourseTitle" value="Numerical Analysis (Sessional)" placeholder="e.g. Numerical Analysis, Algorithms">
+              </div>
+            </div>
+
+            <!-- Optional Topic / Number Details -->
+            <div class="input-row">
+              <div class="input-group flex-1">
+                <label for="inputDocNumber" id="labelDocNumber">Experiment No. (Optional)</label>
+                <input type="text" id="inputDocNumber" placeholder="e.g. 01, 02 (optional)">
+              </div>
+              <div class="input-group flex-2">
+                <label for="inputDocTopic" id="labelDocTopic">Experiment Name / Title (Optional)</label>
+                <input type="text" id="inputDocTopic" placeholder="e.g. Newton-Raphson Method (optional)">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Student Information ("Submitted By") -->
+        <div class="form-card">
+          <div class="card-header">
+            <span class="card-icon">🎓</span>
+            <div class="card-title-wrap">
+              <h3>Student Information</h3>
+              <span class="sub-badge">Submitted By Box</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <!-- Quick Department Selector for all BIU departments -->
+            <div class="input-group">
+              <label for="quickDeptSelect">Quick Department Autofill (BIU)</label>
+              <select id="quickDeptSelect" onchange="applyDepartmentPreset(this.value)">
+                <option value="">-- Select Any BIU Department --</option>
+                <option value="Department of CSE">Department of CSE (Computer Science & Engineering)</option>
+                <option value="Department of EEE">Department of EEE (Electrical & Electronic Engineering)</option>
+                <option value="Department of Civil Engineering">Department of Civil Engineering (CE)</option>
+                <option value="Department of Textile Engineering">Department of Textile Engineering (TE)</option>
+                <option value="Department of Business Administration">Department of Business Administration (BBA / MBA)</option>
+                <option value="Department of English">Department of English</option>
+                <option value="Department of Law">Department of Law (LL.B / LL.M)</option>
+                <option value="Department of Pharmacy">Department of Pharmacy</option>
+                <option value="Department of Mathematics">Department of Mathematics</option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label for="inputStudentName">Student Full Name</label>
+              <input type="text" id="inputStudentName" value="K.M.M. Shorif Bhubon" placeholder="Enter your full name">
+            </div>
+            <div class="input-row">
+              <div class="input-group flex-1">
+                <label for="inputStudentId">Student ID</label>
+                <input type="text" id="inputStudentId" value="0742320005101015" placeholder="e.g. 0742320005101015">
+              </div>
+              <div class="input-group flex-1">
+                <label for="inputBatch">Batch</label>
+                <input type="text" id="inputBatch" value="12th" placeholder="e.g. 12th, 14th">
+              </div>
+            </div>
+            <div class="input-row">
+              <div class="input-group flex-1">
+                <label for="inputSection">Section (Optional)</label>
+                <input type="text" id="inputSection" placeholder="e.g. A, B (optional)">
+              </div>
+              <div class="input-group flex-1">
+                <label for="inputSemester">Semester (Optional)</label>
+                <input type="text" id="inputSemester" placeholder="e.g. 5th, Fall 2026">
+              </div>
+            </div>
+            <div class="input-group">
+              <label for="inputStudentDept">Department</label>
+              <input type="text" id="inputStudentDept" value="Department of CSE" placeholder="e.g. Department of CSE">
+            </div>
+            <div class="input-group">
+              <label for="inputStudentUni">University Name</label>
+              <input type="text" id="inputStudentUni" value="Brahmaputra International University" placeholder="University name">
+            </div>
+
+            <!-- Custom Extra Student Fields -->
+            <div class="custom-fields-wrapper">
+              <div class="custom-fields-header">
+                <span class="helper-text">Add Extra Lines (Session, Reg No, Program, etc.)</span>
+                <button type="button" class="btn btn-sm btn-secondary" onclick="addCustomField()">+ Add Custom Line</button>
+              </div>
+              <div id="customFieldsInputs"></div>
+            </div>
+
+            <!-- Group Submission Toggle -->
+            <div class="group-toggle-wrap">
+              <div class="toggle-control">
+                <label class="switch">
+                  <input type="checkbox" id="groupModeToggle" onchange="toggleGroupMode()">
+                  <span class="slider round"></span>
+                </label>
+                <span class="toggle-label">Group Project Mode (Add Multiple Students)</span>
+              </div>
+              <div id="groupMembersList" class="group-members-container hidden">
+                <div class="group-members-header">
+                  <span>Additional Group Members</span>
+                  <button type="button" class="btn btn-sm btn-secondary" onclick="addGroupMember()">+ Add Member</button>
+                </div>
+                <div id="membersInputs"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Instructor Information ("Submitted To") -->
+        <div class="form-card">
+          <div class="card-header">
+            <span class="card-icon">👨‍🏫</span>
+            <div class="card-title-wrap">
+              <h3>Faculty / Instructor Information</h3>
+              <span class="sub-badge">Submitted To Box</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="input-group">
+              <label for="inputTeacherName">Faculty / Teacher Name</label>
+              <input type="text" id="inputTeacherName" value="Afia Farzana" placeholder="e.g. Afia Farzana, Dr. ...">
+            </div>
+            <div class="input-row">
+              <div class="input-group flex-1">
+                <label for="inputTeacherDesignation">Designation</label>
+                <input type="text" id="inputTeacherDesignation" value="Lecturer" list="designationList" placeholder="e.g. Lecturer">
+                <datalist id="designationList">
+                  <option value="Lecturer">
+                  <option value="Senior Lecturer">
+                  <option value="Assistant Professor">
+                  <option value="Associate Professor">
+                  <option value="Professor">
+                  <option value="Head of the Department">
+                  <option value="Dean of Faculty">
+                  <option value="Adjunct Faculty">
+                </datalist>
+              </div>
+              <div class="input-group flex-1">
+                <label for="inputTeacherDept">Department</label>
+                <input type="text" id="inputTeacherDept" value="Department of CSE" placeholder="e.g. Department of CSE">
+              </div>
+            </div>
+            <div class="input-group">
+              <label for="inputTeacherUni">University Name</label>
+              <input type="text" id="inputTeacherUni" value="Brahmaputra International University" placeholder="University name">
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Submission Date -->
+        <div class="form-card">
+          <div class="card-header">
+            <span class="card-icon">📅</span>
+            <h3>Date of Submission</h3>
+          </div>
+          <div class="card-body">
+            <div class="input-row">
+              <div class="input-group flex-2">
+                <label for="inputSubmissionDate">Submission Date Text</label>
+                <input type="text" id="inputSubmissionDate" value="28 April 2026" placeholder="e.g. 28 April 2026">
+              </div>
+              <div class="input-group flex-1 action-inline">
+                <label>&nbsp;</label>
+                <button type="button" class="btn btn-secondary w-100" onclick="setTodayDate()">Today's Date</button>
+              </div>
+            </div>
+            <div class="input-group date-picker-helper">
+              <label for="datePicker">Pick from calendar:</label>
+              <input type="date" id="datePicker" onchange="onCalendarSelect(this.value)">
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. Style & Customization Settings -->
+        <div class="form-card collapsible">
+          <div class="card-header clickable" onclick="toggleCardCollapse(this)">
+            <span class="card-icon">🎨</span>
+            <div class="card-title-wrap">
+              <h3>Customization & Branding</h3>
+              <span class="sub-hint">Colors, watermark opacity & logo</span>
+            </div>
+            <span class="chevron-arrow">▾</span>
+          </div>
+          <div class="card-body">
+            <!-- Accent Color -->
+            <div class="input-group">
+              <label>Accent Color (Border & Styling)</label>
+              <div class="color-picker-row">
+                <input type="color" id="accentColorInput" value="#0070C0" onchange="updateAccentColor(this.value)">
+                <div class="swatches-list">
+                  <button type="button" class="color-swatch active" style="background-color: #0070C0;" title="BIU Signature Royal Blue" onclick="updateAccentColor('#0070C0')"></button>
+                  <button type="button" class="color-swatch" style="background-color: #0284c7;" title="Cyan Blue" onclick="updateAccentColor('#0284c7')"></button>
+                  <button type="button" class="color-swatch" style="background-color: #059669;" title="Emerald Green" onclick="updateAccentColor('#059669')"></button>
+                  <button type="button" class="color-swatch" style="background-color: #4f46e5;" title="Royal Indigo" onclick="updateAccentColor('#4f46e5')"></button>
+                  <button type="button" class="color-swatch" style="background-color: #b91c1c;" title="Crimson Red" onclick="updateAccentColor('#b91c1c')"></button>
+                  <button type="button" class="color-swatch" style="background-color: #1e293b;" title="Classic Slate" onclick="updateAccentColor('#1e293b')"></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Watermark Opacity -->
+            <div class="input-group">
+              <div class="slider-label-row">
+                <label for="watermarkOpacitySlider">Watermark Opacity</label>
+                <span id="opacityValueDisplay">18%</span>
+              </div>
+              <input type="range" id="watermarkOpacitySlider" min="0" max="60" value="18" step="1" oninput="updateWatermarkOpacity(this.value)">
+            </div>
+
+            <!-- Watermark Scale -->
+            <div class="input-group">
+              <div class="slider-label-row">
+                <label for="watermarkScaleSlider">Watermark Size (Large)</label>
+                <span id="scaleValueDisplay">105%</span>
+              </div>
+              <input type="range" id="watermarkScaleSlider" min="75" max="150" value="105" step="2" oninput="updateWatermarkScale(this.value)">
+            </div>
+
+            <!-- Official BIU Watermark Status (No upload required) -->
+            <div class="input-group">
+              <div class="crest-status-box">
+                <span class="crest-status-icon">🛡️</span>
+                <div class="crest-status-info">
+                  <strong>Official BIU Seal Watermark Active</strong>
+                  <span>Authentic circular emblem is pre-loaded automatically — no file upload required!</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Box Layout Offset -->
+            <div class="input-group">
+              <div class="toggle-control">
+                <label class="switch">
+                  <input type="checkbox" id="offsetRightBoxToggle" checked onchange="toggleRightBoxOffset()">
+                  <span class="slider round"></span>
+                </label>
+                <span class="toggle-label">Offset "Submitted To" Box downwards (Original PDF Style)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Export Actions Footer for Easy Access on Mobile -->
+        <div class="editor-footer">
+          <button type="button" class="btn btn-secondary flex-1" onclick="downloadImage()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Save PNG
+          </button>
+          <button type="button" class="btn btn-primary flex-2" onclick="generatePDF()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download PDF
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Column: Live A4 Preview Canvas -->
+    <section class="preview-pane" id="previewPane">
+      <!-- Preview Control Toolbar -->
+      <div class="preview-toolbar">
+        <div class="preview-status">
+          <span class="status-indicator"></span>
+          <span id="previewPageIndicator">Live A4 Preview • Lab Report</span>
+          <span class="edit-hint-chip" title="You can type directly into the preview or into the form!">✏️ Click any text to edit directly</span>
+        </div>
+        <div class="zoom-controls">
+          <button type="button" class="zoom-btn" onclick="adjustZoom(-0.1)" title="Zoom Out">−</button>
+          <span id="zoomPercent" class="zoom-label">85%</span>
+          <button type="button" class="zoom-btn" onclick="adjustZoom(0.1)" title="Zoom In">+</button>
+          <button type="button" class="zoom-btn reset-zoom-btn" onclick="setFitZoom()" title="Fit to Window">Fit</button>
+        </div>
+      </div>
+
+      <!-- Preview Viewport Container -->
+      <div class="preview-viewport" id="previewViewport">
+        <div class="sheet-scaler" id="sheetScaler">
+          <!-- The Exact A4 Document Sheet (with direct inline click-to-edit support) -->
+          <article class="a4-sheet" id="coverPageSheet">
+            <!-- Center Watermark Logo Background -->
+            <div class="watermark-wrapper" id="watermarkWrapper">
+              <img id="watermarkLogo" src="assets/biu_logo.png" alt="University Watermark" class="watermark-image">
+            </div>
+
+            <!-- Foreground Content Layer -->
+            <div class="sheet-content">
+              <!-- Top University Header Section -->
+              <header class="sheet-header">
+                <div class="uni-title-line line1" id="previewUniLine1" contenteditable="true" title="Click to edit university name">BRAHMAPUTRA INTERNATIONAL</div>
+                <div class="uni-title-line line2" id="previewUniLine2" contenteditable="true" title="Click to edit university name">UNIVERSITY</div>
+              </header>
+
+              <!-- Document Title & Course Details -->
+              <div class="report-meta-section">
+                <h2 class="report-title" id="previewReportTitle" contenteditable="true" title="Click to edit heading">Lab Report</h2>
+                <div class="course-info">
+                  <div class="course-code-line">
+                    <span class="meta-label">Course Code:</span>
+                    <span class="meta-val" id="previewCourseCode" contenteditable="true" title="Click to edit course code">0611-3208</span>
+                  </div>
+                  <div class="course-title-line">
+                    <span class="meta-label">Course Title:</span>
+                    <span class="meta-val" id="previewCourseTitle" contenteditable="true" title="Click to edit course title">Numerical Analysis (Sessional)</span>
+                  </div>
+                  <!-- Optional Dynamic Topic / Number Lines (shown when filled) -->
+                  <div class="course-meta-extra" id="previewMetaExtra" style="display: none;">
+                    <div class="doc-number-line" id="previewNumberContainer" style="display: none;">
+                      <span class="meta-label" id="previewNumberLabel">Assignment No:</span>
+                      <span class="meta-val" id="previewNumberVal" contenteditable="true" title="Click to edit number"></span>
+                    </div>
+                    <div class="doc-topic-line" id="previewTopicContainer" style="display: none;">
+                      <span class="meta-label" id="previewTopicLabel">Topic:</span>
+                      <span class="meta-val" id="previewTopicVal" contenteditable="true" title="Click to edit topic"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Mid Section: Submitted By & Submitted To Cards -->
+              <div class="cards-split-row" id="cardsSplitRow">
+                <!-- Left: Submitted By Box -->
+                <div class="info-card-box card-submitted-by" id="boxSubmittedBy">
+                  <div class="box-heading by-heading">Submitted By:</div>
+                  <div class="box-body" id="submittedByBody">
+                    <div class="person-name" id="previewStudentName" contenteditable="true" title="Click to edit name">K.M.M. Shorif Bhubon</div>
+                    <div class="detail-line">
+                      <span class="field-label">ID:</span>
+                      <span class="field-value" id="previewStudentId" contenteditable="true" title="Click to edit ID">0742320005101015</span>
+                    </div>
+                    <div class="detail-line">
+                      <span class="field-label">Batch:</span>
+                      <span class="field-value" id="previewBatch" contenteditable="true" title="Click to edit batch">12<sup>th</sup></span>
+                    </div>
+                    <div id="previewExtraStudentLines"></div>
+                    <div class="detail-line dept-line" id="previewStudentDept" contenteditable="true" title="Click to edit department">Department of CSE</div>
+                    <div class="detail-line uni-line" id="previewStudentUni" contenteditable="true" title="Click to edit university">Brahmaputra International University</div>
+                  </div>
+                </div>
+
+                <!-- Right: Submitted To Box -->
+                <div class="info-card-box card-submitted-to offset-down" id="boxSubmittedTo">
+                  <div class="box-heading to-heading">Submitted To:</div>
+                  <div class="box-body">
+                    <div class="person-name" id="previewTeacherName" contenteditable="true" title="Click to edit teacher name">Afia Farzana</div>
+                    <div class="detail-line designation-line" id="previewTeacherDesignation" contenteditable="true" title="Click to edit designation">Lecturer</div>
+                    <div class="detail-line dept-line" id="previewTeacherDept" contenteditable="true" title="Click to edit teacher department">Department of CSE</div>
+                    <div class="detail-line uni-line" id="previewTeacherUni" contenteditable="true" title="Click to edit university">Brahmaputra International University</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bottom Section: Date of Submission Box -->
+              <div class="submission-date-container">
+                <div class="date-card-box" id="boxSubmissionDate">
+                  <span class="date-prefix">Date of Submission:</span>
+                  <span class="date-value" id="previewSubmissionDate" contenteditable="true" title="Click to edit date">28 April 2026</span>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Progress Notification Toast -->
+  <div id="toastNotification" class="toast-notification hidden">
+    <div class="toast-spinner" id="toastSpinner"></div>
+    <span id="toastMessage">Generating PDF...</span>
+  </div>
+
+  <script src="app.js?v=2.1"></script>
+</body>
+</html>
